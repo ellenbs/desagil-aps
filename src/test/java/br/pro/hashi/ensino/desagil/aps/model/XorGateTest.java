@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class XorGateTest {
+
+
     @Test
     public void whenReceivingFalseAndFalseShouldReturnFalse() {
         XorGate gate = new XorGate();

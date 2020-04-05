@@ -33,10 +33,5 @@ public class OrGate extends Gate{
         nand1.connect(0,emitter);
         nand1.connect(1,emitter);
 
-
-
-
-
-
     }
 }
