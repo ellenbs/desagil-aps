@@ -18,7 +18,7 @@ public class OrGate extends Gate{
 
     @Override
     public boolean read() {
-        return nand.read();
+        return nand2.read();
     }
 
 
@@ -26,12 +26,14 @@ public class OrGate extends Gate{
     public void connect(int inputIndex, Emitter emitter) {
         if (inputIndex < 0 || inputIndex > 1) {
             throw new IndexOutOfBoundsException(inputIndex);
-        }
-        nand.connect(0, emitter);
-        nand.connect(1, emitter);
+        }else if (inputIndex == 0) {
+            nand.connect(0, emitter);
+            nand.connect(1, emitter);
+        } else {
 
-        nand1.connect(0,emitter);
-        nand1.connect(1,emitter);
+            nand1.connect(0, emitter);
+            nand1.connect(1, emitter);
+        }
 
     }
 }

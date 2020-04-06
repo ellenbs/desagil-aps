@@ -31,15 +31,19 @@ public class XorGate extends Gate{
         if (inputIndex < 0 || inputIndex > 1) {
             throw new IndexOutOfBoundsException(inputIndex);
         }
+        else if (inputIndex == 0){
+           nand1.connect(0, emitter);
+           nand3.connect(0, emitter);
 
-        nand1.connect(0, emitter);
-        nand1.connect(1, emitter);
 
-        nand2.connect(0, emitter);
-        nand2.connect(1, emitter);
+        }
+        else{
+            nand3.connect(1, emitter);
+            nand2.connect(1, emitter);
+        }
 
-        nand3.connect(0, emitter);
-        nand3.connect(1, emitter);
+
+
 
     }
 }
