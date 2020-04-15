@@ -2,7 +2,7 @@ package br.pro.hashi.ensino.desagil.aps.model;
 
 public class AndGate extends Gate {
     private final NandGate nand0;
-    protected final NandGate nand;
+    private final NandGate nand;
 
     protected AndGate() {
         super("AND", 2);
@@ -14,7 +14,7 @@ public class AndGate extends Gate {
         nand.connect(1, nand0);
     }
     @Override
-    public boolean read() { return nand0.read(); }
+    public boolean read() { return nand.read(); }
 
     @Override
     public void connect(int inputIndex, Emitter emitter) {

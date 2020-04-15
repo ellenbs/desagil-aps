@@ -26,14 +26,14 @@ public class OrGate extends Gate{
     public void connect(int inputIndex, Emitter emitter) {
         if (inputIndex < 0 || inputIndex > 1) {
             throw new IndexOutOfBoundsException(inputIndex);
-        }else if (inputIndex == 0) {
+        }
+        else if (inputIndex == 0) {
             nand.connect(0, emitter);
             nand.connect(1, emitter);
-        } else {
-
+        }
+        else {
             nand1.connect(0, emitter);
             nand1.connect(1, emitter);
         }
-
     }
 }
