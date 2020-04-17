@@ -1,11 +1,10 @@
 package br.pro.hashi.ensino.desagil.aps.model;
 
-public class XorGate extends Gate{
+public class XorGate extends Gate {
+    protected final NandGate nand3;
     private final NandGate nand0;
     private final NandGate nand1;
     private final NandGate nand2;
-    protected final NandGate nand3;
-
 
 
     protected XorGate() {
@@ -24,19 +23,19 @@ public class XorGate extends Gate{
     }
 
     @Override
-    public boolean read() { return nand0.read(); }
+    public boolean read() {
+        return nand0.read();
+    }
 
     @Override
     public void connect(int inputIndex, Emitter emitter) {
         if (inputIndex < 0 || inputIndex > 1) {
             throw new IndexOutOfBoundsException(inputIndex);
-        }
-        else if (inputIndex == 0){
-           nand1.connect(0, emitter);
-           nand3.connect(0, emitter);
+        } else if (inputIndex == 0) {
+            nand1.connect(0, emitter);
+            nand3.connect(0, emitter);
 
-        }
-        else{
+        } else {
             nand3.connect(1, emitter);
             nand2.connect(1, emitter);
         }

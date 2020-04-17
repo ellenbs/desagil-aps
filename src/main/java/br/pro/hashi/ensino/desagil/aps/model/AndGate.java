@@ -13,8 +13,11 @@ public class AndGate extends Gate {
         nand.connect(0, nand0);
         nand.connect(1, nand0);
     }
+
     @Override
-    public boolean read() { return nand.read(); }
+    public boolean read() {
+        return nand.read();
+    }
 
     @Override
     public void connect(int inputIndex, Emitter emitter) {

@@ -1,9 +1,9 @@
 package br.pro.hashi.ensino.desagil.aps.model;
 
-public class OrGate extends Gate{
+public class OrGate extends Gate {
+    protected final NandGate nand2;
     private final NandGate nand;
     private final NandGate nand1;
-    protected final NandGate nand2;
 
     public OrGate() {
         super("OR", 2);
@@ -26,12 +26,10 @@ public class OrGate extends Gate{
     public void connect(int inputIndex, Emitter emitter) {
         if (inputIndex < 0 || inputIndex > 1) {
             throw new IndexOutOfBoundsException(inputIndex);
-        }
-        else if (inputIndex == 0) {
+        } else if (inputIndex == 0) {
             nand.connect(0, emitter);
             nand.connect(1, emitter);
-        }
-        else {
+        } else {
             nand1.connect(0, emitter);
             nand1.connect(1, emitter);
         }
