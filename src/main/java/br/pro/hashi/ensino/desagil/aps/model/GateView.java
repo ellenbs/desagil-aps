@@ -31,69 +31,44 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         this.portao = portao;
 
-        if (portao.getInputSize() == 1) {
-            c = false;
-            entrada = new JCheckBox();
-            entrada_1 = new JCheckBox();
-            cabo1 = new Switch();
-            cabo2 = new Switch();
-            portao.connect(0, cabo1);
-            saida = new JCheckBox();
 
-            JLabel entradaLabel = new JLabel("Entrada:");
-            JLabel saidaLabel = new JLabel("Saída:");
 
-            add(entradaLabel, 10, 10, 75, 25);
-            add(entrada, 10, 40, 150, 25);
-            add(saidaLabel, 10, 100, 75, 25);
-            add(saida, 10, 130, 150, 25);
-            // Inicializamos o atributo de cor simplesmente como preto.
-            color = Color.BLACK;
+        entrada = new JCheckBox();
+        entrada_1 = new JCheckBox();
 
-            entrada.addActionListener(this);
-            saida.setEnabled(false);
+        cabo1 = new Switch();
+        cabo2 = new Switch();
 
-            addMouseListener(this);
+        portao.connect(0, cabo1);
 
-            update();
+        saida = new JCheckBox();
 
-        } else {
+        JLabel entradaLabel = new JLabel("Entrada:");
+        JLabel saidaLabel = new JLabel("Saída:");
+
+        add(entradaLabel, 10, 10, 75, 25);
+        add(entrada, 10, 40, 150, 25);
+        add(saidaLabel, 10, 100, 75, 25);
+        add(saida, 10, 130, 150, 25);
+        // Inicializamos o atributo de cor simplesmente como preto.
+        color = Color.BLACK;
+
+        entrada.addActionListener(this);
+        saida.setEnabled(false);
+
+        addMouseListener(this);
+
+        update();
+
+        if (portao.getInputSize() > 1) {
             c = true;
-            entrada = new JCheckBox();
-            entrada_1 = new JCheckBox();
 
-            cabo1 = new Switch();
-            cabo2 = new Switch();
-
-            portao.connect(0, cabo1);
             portao.connect(1, cabo2);
-
-            saida = new JCheckBox();
-
-            JLabel entradaLabel = new JLabel("Entrada:");
-            JLabel saidaLabel = new JLabel("Saída:");
-
-            // Não há mais a chamada de setLayout, pois ela agora
-            // acontece no construtor da superclasse FixedPanel.
-
-            // Como subclasse de FixedPanel, agora podemos definir a
-            // posição e o tamanho de cada componente ao adicioná-la.
-            add(entradaLabel, 10, 10, 75, 25);
-            add(entrada, 10, 40, 150, 25);
             add(entrada_1, 10, 70, 150, 25);
-            add(saidaLabel, 10, 100, 75, 25);
-            add(saida, 10, 130, 150, 25);
-            // Inicializamos o atributo de cor simplesmente como preto.
-            color = Color.BLACK;
 
-            entrada.addActionListener(this);
             entrada_1.addActionListener(this);
-            saida.setEnabled(false);
 
-            addMouseListener(this);
-
-            update();
-        }
+        }else{c = false;}
 
 
         //radiusField.addActionListener(this);
@@ -110,55 +85,37 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     }
 
     private void update() {
-        if (c == true) {
-            boolean entrada1;
+        boolean entrada1;
+
+        entrada1 = entrada.isSelected();
+
+        if (!entrada1) {
+            cabo1.turnOff();
+        } else {
+            cabo1.turnOn();
+        }
+
+        if (portao.read()) {
+            saida.setSelected(true);
+        } else {
+            saida.setSelected(false);
+        }
+
+        if (c) {
             boolean entrada2;
 
-            try {
-                entrada1 = entrada.isSelected();
-                entrada2 = entrada_1.isSelected();
+            entrada2 = entrada_1.isSelected();
 
-                if (entrada1 == false) {
-                    cabo1.turnOff();
-                } else {
-                    cabo1.turnOn();
-                }
-
-                if (entrada2 == false) {
-                    cabo2.turnOff();
-                } else {
-                    cabo2.turnOn();
-                }
-
-                if (portao.read() == true) {
-                    saida.setSelected(true);
-                } else {
-                    saida.setSelected(false);
-                }
-
-            } catch (NumberFormatException exception) {
-                return;
+            if (!entrada2) {
+                cabo2.turnOff();
+            } else {
+                cabo2.turnOn();
             }
-        } else {
-            boolean entrada1;
 
-            try {
-                entrada1 = entrada.isSelected();
-
-                if (entrada1 == false) {
-                    cabo1.turnOff();
-                } else {
-                    cabo1.turnOn();
-                }
-
-                if (portao.read() == true) {
-                    saida.setSelected(true);
-                } else {
-                    saida.setSelected(false);
-                }
-
-            } catch (NumberFormatException exception) {
-                return;
+            if (portao.read()) {
+                saida.setSelected(true);
+            } else {
+                saida.setSelected(false);
             }
         }
     }
