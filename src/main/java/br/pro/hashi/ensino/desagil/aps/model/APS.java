@@ -9,6 +9,7 @@ public class APS {
         // de calculadoras. Aqui a coesão está boa: para
         // criar uma nova calculadora, basta criar a
         // respectiva classe e adicionar uma linha abaixo.
+        
         LinkedList<Gate> model = new LinkedList<>();
         model.add(new NandGate());
         model.add(new XorGate());
