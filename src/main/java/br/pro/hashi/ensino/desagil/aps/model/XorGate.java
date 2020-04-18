@@ -1,13 +1,13 @@
 package br.pro.hashi.ensino.desagil.aps.model;
 
 public class XorGate extends Gate {
-    protected final NandGate nand3;
+    private final NandGate nand3;
     private final NandGate nand0;
     private final NandGate nand1;
     private final NandGate nand2;
 
 
-    protected XorGate() {
+    public XorGate() {
         super("XOR", 2);
 
         nand0 = new NandGate();
