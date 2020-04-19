@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 
 public class GateView extends FixedPanel implements ActionListener, MouseListener {
     private final Gate portao;
@@ -13,15 +14,20 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private final JCheckBox entrada;
     private final JCheckBox entrada_1;
 
-    private final JCheckBox saida;
+    //private final JCheckBox saida;
 
     private final Switch cabo1;
     private final Switch cabo2;
+    private final Switch cabo3;
 
     private final boolean c;
 
-    // Novos atributos necessários para esta versão da interface.
-    private Color color;
+    private final Image image;
+
+    private final Light luz;
+
+    //private Color color;
+
 
     public GateView(Gate portao) {
 
@@ -38,37 +44,48 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         cabo1 = new Switch();
         cabo2 = new Switch();
+        cabo3 = new Switch();
+
+        luz = new Light(255,0,0);
 
         portao.connect(0, cabo1);
+        luz.connect(0,cabo3);
 
-        saida = new JCheckBox();
+        //saida = new JCheckBox();
 
-        JLabel entradaLabel = new JLabel("Entrada:");
-        JLabel saidaLabel = new JLabel("Saída:");
+        //add(saida, 300, 95, 30, 25);
 
-        add(entradaLabel, 10, 10, 75, 25);
-        add(entrada, 10, 40, 150, 25);
-        add(saidaLabel, 10, 100, 75, 25);
-        add(saida, 10, 130, 150, 25);
         // Inicializamos o atributo de cor simplesmente como preto.
-        color = Color.BLACK;
+        //color = Color.BLACK;
+
+
+        // Usamos esse carregamento nos Desafios, vocês lembram?
+        String name = portao.toString() + ".PNG";
+        URL url = getClass().getClassLoader().getResource(name);
+        image = getToolkit().getImage(url);
+
 
         entrada.addActionListener(this);
-        saida.setEnabled(false);
+        //saida.setEnabled(false);
 
         addMouseListener(this);
 
         update();
 
+
         if (portao.getInputSize() > 1) {
             c = true;
 
             portao.connect(1, cabo2);
-            add(entrada_1, 10, 70, 150, 25);
+            add(entrada, 60, 60, 30, 25);
+            add(entrada_1, 60, 125, 30, 25);
 
             entrada_1.addActionListener(this);
 
-        }else{c = false;}
+        }else{
+            c = false;
+            add(entrada, 60, 95, 30, 25);
+            }
 
 
         //radiusField.addActionListener(this);
@@ -94,12 +111,13 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         } else {
             cabo1.turnOn();
         }
-
-        if (portao.read()) {
-            saida.setSelected(true);
-        } else {
-            saida.setSelected(false);
+        if (portao.read()){
+            cabo3.turnOn();
+        }else{
+            cabo3.turnOff();
         }
+
+
 
         if (c) {
             boolean entrada2;
@@ -111,13 +129,14 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
             } else {
                 cabo2.turnOn();
             }
-
-            if (portao.read()) {
-                saida.setSelected(true);
-            } else {
-                saida.setSelected(false);
+            if (portao.read()){
+                cabo3.turnOn();
+            }else{
+                cabo3.turnOff();
             }
+
         }
+        luz.getColor();
     }
 
 
@@ -138,11 +157,10 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         int y = event.getY();
 
         // Se o clique foi dentro do quadrado colorido...
-        if (x >= 210 && x < 235 && y >= 311 && y < 336) {
+        if (x >= 300 && x < 320 && y >= 95 && y < 115) {
 
             // ...então abrimos a janela seletora de cor...
-            color = JColorChooser.showDialog(this, null, color);
-
+            luz.setColor(JColorChooser.showDialog(this, null, Color.RED));
             // ...e chamamos repaint para atualizar a tela.
             repaint();
         }
@@ -186,11 +204,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         super.paintComponent(g);
 
         // Desenha a imagem, passando sua posição e seu tamanho.
-        // g.drawImage(image, 10, 80, 221, 221, this);
+         g.drawImage(image, 100, 5, 200, 200, this);
 
         // Desenha um quadrado cheio.
-        g.setColor(color);
-        g.fillRect(210, 311, 25, 25);
+        g.setColor(luz.getColor());
+        g.fillOval(300, 95, 20, 20);
 
         // Linha necessária para evitar atrasos
         // de renderização em sistemas Linux.
