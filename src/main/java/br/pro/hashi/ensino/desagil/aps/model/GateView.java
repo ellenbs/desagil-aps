@@ -38,7 +38,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         this.portao = portao;
 
 
-
         entrada = new JCheckBox();
         entrada_1 = new JCheckBox();
 
@@ -86,6 +85,8 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
             c = false;
             add(entrada, 60, 95, 30, 25);
             }
+        }
+
 
 
         //radiusField.addActionListener(this);
@@ -99,7 +100,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         // do tipo MouseListener como parâmetro. É por isso que
         // adicionamos o "implements MouseListener" lá em cima.
 
-    }
 
     private void update() {
         boolean entrada1;

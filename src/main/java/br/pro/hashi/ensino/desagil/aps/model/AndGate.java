@@ -4,7 +4,7 @@ public class AndGate extends Gate {
     private final NandGate nand0;
     private final NandGate nand;
 
-    protected AndGate() {
+    public AndGate() {
         super("AND", 2);
 
         nand0 = new NandGate();

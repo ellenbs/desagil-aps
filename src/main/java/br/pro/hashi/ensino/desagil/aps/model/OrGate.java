@@ -1,7 +1,8 @@
 package br.pro.hashi.ensino.desagil.aps.model;
 
 public class OrGate extends Gate {
-    protected final NandGate nand2;
+    private
+    final NandGate nand2;
     private final NandGate nand;
     private final NandGate nand1;
 
