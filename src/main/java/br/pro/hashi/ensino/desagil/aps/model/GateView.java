@@ -16,7 +16,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
     private final Switch cabo1;
     private final Switch cabo2;
-    private final Switch cabo3;
 
     private final boolean c;
 
@@ -40,19 +39,15 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         cabo1 = new Switch();
         cabo2 = new Switch();
-        cabo3 = new Switch();
 
-        luz = new Light(255,0,0);
+        luz = new Light(255, 0, 0);
 
         portao.connect(0, cabo1);
-
-        luz.connect(0,cabo3);
 
         // Usamos esse carregamento nos Desafios, vocês lembram?
         String name = portao.toString() + ".PNG";
         URL url = getClass().getClassLoader().getResource(name);
         image = getToolkit().getImage(url);
-
 
         entrada.addActionListener(this);
 
@@ -69,19 +64,19 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
             entrada_1.addActionListener(this);
 
-        }else{
+        } else {
             c = false;
             add(entrada, 7, 95, 20, 25);
-            }
         }
+    }
 
-        // Toda componente Swing tem uma lista de observadores
-        // que reagem quando algum evento de mouse acontece.
-        // Usamos o método addMouseListener para adicionar a
-        // própria componente, ou seja "this", nessa lista.
-        // Só que addMouseListener espera receber um objeto
-        // do tipo MouseListener como parâmetro. É por isso que
-        // adicionamos o "implements MouseListener" lá em cima.
+    // Toda componente Swing tem uma lista de observadores
+    // que reagem quando algum evento de mouse acontece.
+    // Usamos o método addMouseListener para adicionar a
+    // própria componente, ou seja "this", nessa lista.
+    // Só que addMouseListener espera receber um objeto
+    // do tipo MouseListener como parâmetro. É por isso que
+    // adicionamos o "implements MouseListener" lá em cima.
 
     private void update() {
         boolean entrada1;
@@ -93,11 +88,8 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         } else {
             cabo1.turnOn();
         }
-        if (portao.read()){
-            cabo3.turnOn();
-        }else{
-            cabo3.turnOff();
-        }
+
+        luz.connect(0, portao);
 
         if (c) {
             boolean entrada2;
@@ -108,11 +100,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
                 cabo2.turnOff();
             } else {
                 cabo2.turnOn();
-            }
-            if (portao.read()){
-                cabo3.turnOn();
-            }else{
-                cabo3.turnOff();
             }
         }
     }
@@ -130,7 +117,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         int y = event.getY();
 
         // Se o clique foi dentro do quadrado colorido...
-        if ((x-200)*(x-200) + (y-105)*(y-105) < 100)  {
+        if ((x - 200) * (x - 200) + (y - 105) * (y - 105) < 100) {
 
             // ...então abrimos a janela seletora de cor..
 
