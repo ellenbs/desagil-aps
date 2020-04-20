@@ -33,7 +33,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         super(245, 200);
 
         this.portao = portao;
-g
+
         entrada = new JCheckBox();
         entrada_1 = new JCheckBox();
 
