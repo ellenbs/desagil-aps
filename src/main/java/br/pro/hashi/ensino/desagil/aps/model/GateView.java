@@ -14,8 +14,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     private final JCheckBox entrada;
     private final JCheckBox entrada_1;
 
-    //private final JCheckBox saida;
-
     private final Switch cabo1;
     private final Switch cabo2;
     private final Switch cabo3;
@@ -24,9 +22,10 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
     private final Image image;
 
-    private final Light luz;
+    //Links das imagens retiradas da internet:
+    //https://en.wikipedia.org/wiki/Electronic_symbol
 
-    private Color color;
+    private final Light luz;
 
     public GateView(Gate portao) {
 
@@ -49,13 +48,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         luz.connect(0,cabo3);
 
-        //saida = new JCheckBox();
-
-        //add(saida, 300, 95, 30, 25);
-
-        // Inicializamos o atributo de cor simplesmente como preto.
-        color = Color.BLACK;
-
         // Usamos esse carregamento nos Desafios, vocês lembram?
         String name = portao.toString() + ".PNG";
         URL url = getClass().getClassLoader().getResource(name);
@@ -63,32 +55,25 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
 
         entrada.addActionListener(this);
-        //saida.setEnabled(false);
 
         addMouseListener(this);
 
         update();
 
-
         if (portao.getInputSize() > 1) {
             c = true;
 
             portao.connect(1, cabo2);
-            add(entrada, 0, 60, 30, 25);
-            add(entrada_1, 0, 125, 30, 25);
+            add(entrada, 7, 60, 20, 25);
+            add(entrada_1, 7, 125, 20, 25);
 
             entrada_1.addActionListener(this);
 
         }else{
             c = false;
-            add(entrada, 60, 95, 30, 25);
+            add(entrada, 7, 95, 20, 25);
             }
         }
-
-
-
-        //radiusField.addActionListener(this);
-
 
         // Toda componente Swing tem uma lista de observadores
         // que reagem quando algum evento de mouse acontece.
@@ -97,7 +82,6 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         // Só que addMouseListener espera receber um objeto
         // do tipo MouseListener como parâmetro. É por isso que
         // adicionamos o "implements MouseListener" lá em cima.
-
 
     private void update() {
         boolean entrada1;
@@ -127,21 +111,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
             }
             if (portao.read()){
                 cabo3.turnOn();
-                //System.out.println("True");
-                //System.out.println(luz.getColor());
             }else{
                 cabo3.turnOff();
-                //System.out.println("False");
-                //System.out.println(luz.getColor());
             }
         }
-        System.out.println(luz.getColor());
     }
-
-
-//        boolean result = gate.connect(entrada_nova, gate.read());
-
-//        saida.setText(Boolean.toString(result));
 
     @Override
     public void actionPerformed(ActionEvent event) {
@@ -156,12 +130,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         int y = event.getY();
 
         // Se o clique foi dentro do quadrado colorido...
-        if (x >= 200 && x < 220 && y >= 95 && y < 115)  {
+        if ((x-200)*(x-200) + (y-105)*(y-105) < 100)  {
 
-            // ...então abrimos a janela seletora de cor...
-            color = JColorChooser.showDialog(this, null, color);
+            // ...então abrimos a janela seletora de cor..
 
-            luz.setColor(color);
+            luz.setColor(JColorChooser.showDialog(this, null, Color.RED));
             // ...e chamamos repaint para atualizar a tela.
             repaint();
         }
@@ -209,12 +182,11 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         // Desenha um quadrado cheio.
         g.setColor(luz.getColor());
-        g.fillOval(200, 95, 20, 20);
-        System.out.println(g);
+        g.fillOval(190, 95, 20, 20);
+        repaint();
 
         // Linha necessária para evitar atrasos
         // de renderização em sistemas Linux.
         getToolkit().sync();
-        //update();
     }
 }
