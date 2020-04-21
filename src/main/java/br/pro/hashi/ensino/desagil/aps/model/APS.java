@@ -6,7 +6,7 @@ import view.View;
 import javax.swing.*;
 import java.util.LinkedList;
 
-public class APS {
+public class APS{
     public static void main(String[] args) {
         // Constrói o modelo, que é simplesmente uma lista
         // de calculadoras. Aqui a coesão está boa: para
