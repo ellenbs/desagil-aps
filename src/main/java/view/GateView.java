@@ -1,4 +1,8 @@
-package br.pro.hashi.ensino.desagil.aps.model;
+package view;
+
+import model.Light;
+import model.Switch;
+import model.Gate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,17 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.util.LinkedList;
 
 public class GateView extends FixedPanel implements ActionListener, MouseListener {
     private final Gate portao;
 
-    private final JCheckBox entrada;
-    private final JCheckBox entrada_1;
-
-    private final Switch cabo1;
-    private final Switch cabo2;
-
-    private final boolean c;
+    private final LinkedList<JCheckBox>entradas;
+    private final LinkedList<Switch>cabos;
 
     private final Image image;
 
@@ -34,40 +34,44 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         this.portao = portao;
 
-        entrada = new JCheckBox();
-        entrada_1 = new JCheckBox();
+        entradas = new LinkedList<>();
+        cabos = new LinkedList<>();
 
-        cabo1 = new Switch();
-        cabo2 = new Switch();
+        int inputSize = portao.getInputSize();
+
+
+        for (int i = 0; i < inputSize; i++){
+            entradas.add(i, new JCheckBox());
+            cabos.add(i, new Switch());
+
+            portao.connect(i, cabos.get(i));
+        }
 
         luz = new Light(255, 0, 0);
-
-        portao.connect(0, cabo1);
 
         // Usamos esse carregamento nos Desafios, vocês lembram?
         String name = portao.toString() + ".PNG";
         URL url = getClass().getClassLoader().getResource(name);
         image = getToolkit().getImage(url);
 
-        entrada.addActionListener(this);
+        int y = 0;
+        int incremento = 200/inputSize;
+        int inicial = (incremento/2);
+
+        for (JCheckBox caixa : entradas){
+            caixa.addActionListener(this);
+            add(caixa, 7, inicial+y, 20, 25);
+            System.out.println(inicial+y);
+            y += incremento-40;
+
+
+        }
+
 
         addMouseListener(this);
 
         update();
 
-        if (portao.getInputSize() > 1) {
-            c = true;
-
-            portao.connect(1, cabo2);
-            add(entrada, 7, 60, 20, 25);
-            add(entrada_1, 7, 125, 20, 25);
-
-            entrada_1.addActionListener(this);
-
-        } else {
-            c = false;
-            add(entrada, 7, 95, 20, 25);
-        }
     }
 
     // Toda componente Swing tem uma lista de observadores
@@ -79,29 +83,16 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
     // adicionamos o "implements MouseListener" lá em cima.
 
     private void update() {
-        boolean entrada1;
 
-        entrada1 = entrada.isSelected();
-
-        if (!entrada1) {
-            cabo1.turnOff();
-        } else {
-            cabo1.turnOn();
+        for (int i = 0; i < portao.getInputSize(); i++){
+            boolean verifica;
+            verifica = entradas.get(i).isSelected();
+            if (verifica){
+                cabos.get(i).turnOn();
+            }else{cabos.get(i).turnOff();}
         }
 
-        luz.connect(0, portao);
-
-        if (c) {
-            boolean entrada2;
-
-            entrada2 = entrada_1.isSelected();
-
-            if (!entrada2) {
-                cabo2.turnOff();
-            } else {
-                cabo2.turnOn();
-            }
-        }
+        luz.connect(0,portao);
     }
 
     @Override
@@ -169,7 +160,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
         // Desenha um quadrado cheio.
         g.setColor(luz.getColor());
-        g.fillOval(190, 95, 20, 20);
+        g.fillOval(190, 82, 20, 20);
         repaint();
 
         // Linha necessária para evitar atrasos

@@ -1,5 +1,6 @@
 package br.pro.hashi.ensino.desagil.aps.model;
 
+import model.NotGate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
