@@ -1,8 +1,8 @@
 package view;
 
+import model.Gate;
 import model.Light;
 import model.Switch;
-import model.Gate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,8 +16,8 @@ import java.util.LinkedList;
 public class GateView extends FixedPanel implements ActionListener, MouseListener {
     private final Gate portao;
 
-    private final LinkedList<JCheckBox>entradas;
-    private final LinkedList<Switch>cabos;
+    private final LinkedList<JCheckBox> entradas;
+    private final LinkedList<Switch> cabos;
 
     private final Image image;
 
@@ -40,7 +40,7 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         int inputSize = portao.getInputSize();
 
 
-        for (int i = 0; i < inputSize; i++){
+        for (int i = 0; i < inputSize; i++) {
             entradas.add(i, new JCheckBox());
             cabos.add(i, new Switch());
 
@@ -55,14 +55,14 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
         image = getToolkit().getImage(url);
 
         int y = 0;
-        int incremento = 200/inputSize;
-        int inicial = (incremento/2);
+        int incremento = 200 / inputSize;
+        int inicial = (incremento / 2);
 
-        for (JCheckBox caixa : entradas){
+        for (JCheckBox caixa : entradas) {
             caixa.addActionListener(this);
-            add(caixa, 7, inicial+y, 20, 25);
-            System.out.println(inicial+y);
-            y += incremento-40;
+            add(caixa, 7, inicial + y, 20, 25);
+            System.out.println(inicial + y);
+            y += incremento - 40;
 
 
         }
@@ -84,15 +84,17 @@ public class GateView extends FixedPanel implements ActionListener, MouseListene
 
     private void update() {
 
-        for (int i = 0; i < portao.getInputSize(); i++){
+        for (int i = 0; i < portao.getInputSize(); i++) {
             boolean verifica;
             verifica = entradas.get(i).isSelected();
-            if (verifica){
+            if (verifica) {
                 cabos.get(i).turnOn();
-            }else{cabos.get(i).turnOff();}
+            } else {
+                cabos.get(i).turnOff();
+            }
         }
 
-        luz.connect(0,portao);
+        luz.connect(0, portao);
     }
 
     @Override
